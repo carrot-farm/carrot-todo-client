@@ -45,10 +45,12 @@ class HeaderContainer extends Component{
       const {BaseActions, CategoryActions, ToDoActions} = this.props;
       const res = await BaseActions.getInitialData();
       const {data} = res;
-      CategoryActions.setSelectedCategory(data._selectedCategory);
       if(data.logged){
          CategoryActions.getList({page:1});
-         ToDoActions.getList({page:1, categoryId: data._selectedCategory});
+         if(data._selectedCategory){
+            CategoryActions.setSelectedCategory(data._selectedCategory);
+            ToDoActions.getList({page:1, categoryId: data._selectedCategory});
+         }
       }
    }
    render(){
