@@ -29,7 +29,7 @@ class ToDoListContainer extends Component{
          return alert('카테고리를 선택하여 주십시요.');
       }
       if(_id){//수정
-         list.map(item=>{
+         list.map((item)=>{
             if(item._id === _id){
                ToDoActions.updateItem({
                   itemId: _id, 
@@ -62,6 +62,7 @@ class ToDoListContainer extends Component{
 
 export default connect(
 	state=>({
+      isLogged: state.base.get('isLogged'),
       _id: state.toDo.get('_id'),
       categories: state.category.get('categories'),
       selectedCategory: state.category.get('selectedCategory'),

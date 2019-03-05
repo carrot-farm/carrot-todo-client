@@ -6,7 +6,7 @@ import * as categoryActions from 'store/modules/category';
 import * as toDoActions from 'store/modules/toDo';
 
 class HorizontalContainer extends Component{
-   wheelEvt = (navigator.userAgent.indexOf('Firefox') != -1)?'DOMMouseScroll' : 'mousewheel';
+   wheelEvt = (navigator.userAgent.indexOf('Firefox') !== -1)?'DOMMouseScroll' : 'mousewheel';
    //스크롤 이벤트
    stopEvt = (evt)=>{
       if(evt){

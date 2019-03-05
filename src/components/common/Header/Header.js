@@ -17,28 +17,29 @@ const cx = classNames.bind(styles);
 const SideMenu = ({handleLogoutClick, isLogged}) => (
    <div className={cx('side-menu')}>
       <div className={cx('top')}></div>
-      <div className={cx('list')}>
-         <List>
-            <Link to="/">
-               <ListItem button >
-                     <ListItemText primary={'할일'} />
-               </ListItem>
-            </Link>
-            <Link to="/categoryList">
-               <ListItem button >
-                     <ListItemText primary={'카테고리설정'} />
-               </ListItem>
-            </Link>
-         </List>  
-      </div>
       {
-         (isLogged)?
-         <div className={cx('bottom')}>
-            <div className={cx('logout-button')} onClick={handleLogoutClick}>
-               <Button size="large" color="secondary">로그아웃</Button>
+         (isLogged)&&
+         <div>
+            <div className={cx('list')}>
+               <List>
+                  <Link to="/">
+                     <ListItem button >
+                        <ListItemText primary={'할일'} />
+                     </ListItem>
+                  </Link>
+                  <Link to="/categoryList">
+                     <ListItem button >
+                        <ListItemText primary={'카테고리설정'} />
+                     </ListItem>
+                  </Link>
+               </List>  
+            </div>
+            <div className={cx('bottom')}>
+               <div className={cx('logout-button')} onClick={handleLogoutClick}>
+                  <Button size="large" color="secondary">로그아웃</Button>
+               </div>
             </div>
          </div>
-         :''
       }
    </div>
 );

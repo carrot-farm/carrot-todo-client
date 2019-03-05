@@ -85,8 +85,6 @@ class SimpleList extends Component {
       handleDeleteClick();
    };
 
-   
-
    //랜더링 제한
    componentDidUpdate(nextProps, nextState){
       if(this.state.anchorEl === nextState.anchorEl 
@@ -103,12 +101,6 @@ class SimpleList extends Component {
          // lastPage,
          list,
          textField,
-         // useWriteButton,
-         // handleMoreClick,
-         // handleWriteClick,
-         // handleModifyClick,
-         // handleDeleteClick,
-         // anchorEl
          isToDoList,
          handleCompleteClick,
       } = this.props;

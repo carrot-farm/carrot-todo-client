@@ -3,6 +3,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'; 
 import * as baseActions from 'store/modules/base';
 import LoginModal from 'components/modal/LoginModal';
+import {apiServer} from 'config';
+
+
 
 class LoginModalContainer extends Component{
    handleHideModal = ()=>{
@@ -10,7 +13,7 @@ class LoginModalContainer extends Component{
       BaseActions.hideModal('login');
    }
    handleLoginClick = ()=>{
-      const serverUrl = 'http://localhost:4000/api/auth/google';
+      const serverUrl = `${apiServer}/api/auth/google`;
       window.open(serverUrl, 'loginWindow', 'width=500,height=600,left=50,top=50');
       window.addEventListener('message', (e)=>{
          if(e.data === 'login'){
@@ -32,7 +35,7 @@ class LoginModalContainer extends Component{
 
 export default connect(
 	state=>({
-      visible: state.base.getIn(['modal','login'])
+      visible: state.base.getIn(['modal','login']),
 	}),
 	dispatch=>({
 		BaseActions: bindActionCreators(baseActions, dispatch)

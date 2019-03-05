@@ -75,18 +75,14 @@ const withSimpleList = options => WrappedComponent => {
          return true;
       }
 
-      
       //랜더링
       render(){
          const {
-            useWriteButton,
             textField, // 리스트 출력시 보여질 필드명.
             loading, 
             isToDoList, //todolist 일 경우
          } = options;
-         //로딩 시 페이지 표시 안함.
-         if(loading){return null;}
-
+         
          const {
             handleAppendList,
             handleWriteClick,
@@ -95,18 +91,24 @@ const withSimpleList = options => WrappedComponent => {
             handleItemMenuClick,
             handleCompleteClick,
          } = this;
-
+         
          const {
             page,
             lastPage,
             list,
+            isLogged
          } = this.props;
+
+         let activeWriteButton = (isLogged)?true:false;
+
+         //로딩 시 페이지 표시 안함.
+         if(loading){return null;}
 
          return (
             <div>
                <WrappedComponent {...this.props} />
                <AppendListTemplate
-                  useWriteButton={useWriteButton}
+                  useWriteButton={activeWriteButton}
                   isToDoList={isToDoList}
                   page={page}
                   lastPage={lastPage}

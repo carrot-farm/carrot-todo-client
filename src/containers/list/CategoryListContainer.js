@@ -15,23 +15,24 @@ const options = {
 };
 
 class CategoryListContainer extends Component{
-	render(){
-            return( <div></div> );
+   render(){
+      return( <div></div> );
 	}
 }
 
 export default connect(
 	state=>({
-            _id: state.category.get('_id'),
-            page: state.category.get('page'),
-            lastPage: state.category.get('lastPage'),
-            list: state.category.get('categories'),
-            categoryDetail: state.category.get('categoryDetail'),
-            loading: state.pender.pending['category/GET_APPEND_LIST'],
-            initialLoading: state.pender.pending['category/GET_CATEGORIES'],
+      _id: state.category.get('_id'),
+      page: state.category.get('page'),
+      lastPage: state.category.get('lastPage'),
+      list: state.category.get('categories'),
+      categoryDetail: state.category.get('categoryDetail'),
+      loading: state.pender.pending['category/GET_APPEND_LIST'],
+      initialLoading: state.pender.pending['category/GET_CATEGORIES'],
+      isLogged: state.base.get('isLogged'),
 	}),
 	dispatch=>({
-            BaseActions: bindActionCreators(baseActions, dispatch),
-            CategoryActions: bindActionCreators(categoryActions, dispatch),
+      BaseActions: bindActionCreators(baseActions, dispatch),
+      CategoryActions: bindActionCreators(categoryActions, dispatch),
 	})
 )(withAppendList(options)(CategoryListContainer));

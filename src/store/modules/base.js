@@ -1,7 +1,7 @@
 import {createAction, handleActions} from 'redux-actions';
 import {pender} from 'redux-pender';
 
-import {Map, List} from 'immutable';
+import {Map} from 'immutable';
 
 import * as api from 'lib/api';
 
@@ -13,6 +13,8 @@ const HIDE_MODAL = 'base/HIDE_MODAL';
 const CHECK_LOGIN = 'base/CHECK_LOGIN';
 const GET_INITIAL_DATA = 'base/GET_INITIAL_DATA'; //접속 시 촉 데이터 가져오기.
 const LOGOUT = 'base/LOGOUT';
+const SET_HEAD_TITLE = 'base/SET_HEAD_TITLE'; //헤드 타이틀 변경
+const SET_HEAD_DESCRIPTION = 'base/SET_HEAD_DESCRIPTION';
 
 //action creators
 export const openSideMenu = createAction(OPEN_SIDE_MENU);
@@ -22,6 +24,8 @@ export const hideModal = createAction(HIDE_MODAL);
 export const checkLogin = createAction(CHECK_LOGIN, api.check_login, meta=>meta);
 export const logout = createAction(LOGOUT, api.logout);
 export const getInitialData = createAction(GET_INITIAL_DATA, api.getInitialData);
+export const setHeadTitle = createAction(SET_HEAD_TITLE);
+export const setHeadDescription = createAction(SET_HEAD_DESCRIPTION);
 
 //initial state
 const initialState = Map({
@@ -33,6 +37,8 @@ const initialState = Map({
    }), 
    isSideMenuOpen: false,
    isLogged: false,
+   headTitle: '',
+   headDescription: '',
 });
 
 export default handleActions({
@@ -49,6 +55,12 @@ export default handleActions({
    [HIDE_MODAL]: (state, action)=>{
       const {payload: modalName} = action;
       return state.setIn(['modal', modalName], false);
+   },
+   [SET_HEAD_TITLE]: (state, action)=>{
+      return state.set('headTitle', action.payload);
+   },
+   [SET_HEAD_DESCRIPTION]: (state, action)=>{
+      return state.set('headDescription', action.payload.slice(0, 200));
    },
    ...pender({
       type: CHECK_LOGIN,
@@ -69,8 +81,7 @@ export default handleActions({
    ...pender({
       type: GET_INITIAL_DATA,
       onSuccess: (state, action)=>{
-         const {logged: isLogged, selectedCategory} = action.payload.data;
-         console.log(selectedCategory)
+         const {logged: isLogged} = action.payload.data;
          return state.set('isLogged', isLogged);
       }
    })
