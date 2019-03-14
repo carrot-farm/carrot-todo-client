@@ -2,6 +2,7 @@ import {createAction, handleActions} from 'redux-actions';
 import {Map, List} from 'immutable';
 import {pender} from 'redux-pender';
 import * as api from 'lib/api';
+import * as errorHandler from 'lib/errorHandler';
 
 //action types
 const INITIALIZE = 'todo/INITIALIZE'; //초기화
@@ -60,7 +61,11 @@ export default handleActions({
          const {data} = action.payload;
          return state.set('_id','').set('input', '')
                      .update('list', items=>([data, ...items]));
+      },
+      onFailure: (state, action)=>{
+         errorHandler.api(state, action)
       }
+
    }),
    ...pender({
       type: UPDATE_ITEM,
@@ -69,6 +74,9 @@ export default handleActions({
          const index = state.get('list').findIndex(item=>item._id === data._id);
          return state.set('_id','').set('input', '')
                      .updateIn(['list', index], item=>data);
+      },
+      onFailure: (state, action)=>{
+         errorHandler.api(state, action)
       }
    }),
    ...pender({
@@ -77,13 +85,21 @@ export default handleActions({
          const {_id} = action.payload.data;
          const index = state.get('list').findIndex(item=>item._id === _id);
          return state.set('input', '').set('_id','').deleteIn(['list', index]);
+      },
+      onFailure: (state, action)=>{
+         errorHandler.api(state, action)
       }
    }),
    ...pender({
       type: GET_LIST,
       onSuccess: (state, action)=>{
-         const lastPage = Number(action.payload.headers['last-page']);
-         return state.set('list', action.payload.data).set('lastPage', lastPage)
+         // const lastPage = Number(action.payload.headers['last-page']);
+         const lastPage = action.payload.data.lastPage;
+         const list = action.payload.data.list;
+         return state.set('list', list).set('lastPage', lastPage)
+      },
+      onFailure: (state, action)=>{
+         errorHandler.api(state, action)
       }
    }),
    ...pender({
@@ -91,20 +107,27 @@ export default handleActions({
       onSuccess: (state, action)=>{
          return state.set('input', action.payload.data.content)
                      .set('_id', action.payload.data._id);
+      },
+      onFailure: (state, action)=>{
+         errorHandler.api(state, action)
       }
    }),
    ...pender({
       type: GET_APPEND_LIST,
       onSuccess: (state, action)=>{
          const {data} = action.payload;
-         const lastPage = Number(action.payload.headers['last-page']);
+         const lastPage = data.lastPage;
+         const appendList = data.list;
          const list = state.get('list');
-         console.log(list, data)
-         return state.set('list', [...list, ...data])
+
+         return state.set('list', [...list, ...appendList])
                      .set('lastPage', lastPage)
                      .set('page', state.get('page')+1)
                      ;
                      
+      },
+      onFailure: (state, action)=>{
+         errorHandler.api(state, action)
       }
    }),
 
