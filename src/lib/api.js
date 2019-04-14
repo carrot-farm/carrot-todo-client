@@ -35,7 +35,6 @@ export const getToDos = ({ page = 1, categoryId, completed }) => {
     return false;
   }
   let url = `/api/toDos/${categoryId}?page=${page}`;
-  console.log(page, categoryId, completed);
   if (completed === true) {
     url += "&completed=true";
   }

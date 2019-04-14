@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { ToDoPage, CategoryListPage, ConfigPage } from "pages";
+import { ToDoPage, CategoryListPage, ConfigPage, EditorPage } from "pages";
 import Base from "containers/common/Base";
 
 const App = () => {
@@ -10,6 +10,7 @@ const App = () => {
         <Route exact path="/" component={ToDoPage} />
         <Route exact path="/CategoryList" component={CategoryListPage} />
         <Route exact path="/Config" component={ConfigPage} />
+        <Route exact path="/Editor" component={EditorPage} />
       </Switch>
       <Base />
     </div>
