@@ -62,7 +62,6 @@ class SimpleList extends Component {
     this.setState({
       anchorEl: evt.currentTarget
     });
-    console.log("click");
     handleItemMenuClick(id);
   };
 
