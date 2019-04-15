@@ -16,6 +16,7 @@ const LOGOUT = "base/LOGOUT";
 const SET_HEAD_TITLE = "base/SET_HEAD_TITLE"; //헤드 타이틀 변경
 const SET_HEAD_DESCRIPTION = "base/SET_HEAD_DESCRIPTION";
 const TOGGLE_HEADER_CATEGORY = "base/TOGGLE_HEADER_CATEGORY"; // 헤더 카테고리 토글
+const TOGGLE_HEADER_SUBMIT = "base/TOGGLE_HEADER_SUBMIT"; // 헤더 글작성 버튼
 
 //action creators
 export const openSideMenu = createAction(OPEN_SIDE_MENU);
@@ -35,6 +36,7 @@ export const getInitialData = createAction(
 export const setHeadTitle = createAction(SET_HEAD_TITLE);
 export const setHeadDescription = createAction(SET_HEAD_DESCRIPTION);
 export const toggleHeaderCategory = createAction(TOGGLE_HEADER_CATEGORY);
+export const toggleHeaderSubmit = createAction(TOGGLE_HEADER_SUBMIT);
 
 //initial state
 const initialState = Map({
@@ -48,11 +50,15 @@ const initialState = Map({
   isLogged: false,
   headTitle: "",
   headDescription: "",
-  toggleHeaderCategory: false
+  toggleHeaderCategory: false,
+  toggleHeaderSubmit: false
 });
 
 export default handleActions(
   {
+    [TOGGLE_HEADER_SUBMIT]: (state, action) => {
+      return state.set("toggleHeaderSubmit", action.payload ? true : false);
+    },
     [TOGGLE_HEADER_CATEGORY]: (state, action) => {
       return state.set("toggleHeaderCategory", action.payload ? true : false);
     },

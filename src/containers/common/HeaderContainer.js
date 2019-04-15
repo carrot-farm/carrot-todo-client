@@ -43,6 +43,47 @@ class HeaderContainer extends Component {
     CategoryActions.clearItem();
     BaseActions.showModal("categoryForm");
   };
+  // ===== 할일 작성/수정 버튼 클릭
+  handleSubmitClick = async () => {
+    const {
+      history,
+      ToDoActions,
+      categories,
+      selectedCategory,
+      input,
+      _id,
+      toDos
+    } = this.props;
+    if (!input) {
+      return alert("내용을 입력하여 주십시요.");
+    }
+    if (!categories.length) {
+      return alert("카테고리를 입력하여 주십시요.");
+    }
+    if (!selectedCategory) {
+      return alert("카테고리를 선택하여 주십시요.");
+    }
+
+    // 수정
+    if (_id) {
+      toDos.map(async item => {
+        await ToDoActions.updateItem({
+          itemId: _id,
+          content: input,
+          completed: item.completed
+        });
+        history.replace("/");
+        return false;
+      });
+      return false;
+    }
+    // 작성
+    await ToDoActions.write({
+      categoryId: selectedCategory,
+      content: input
+    });
+    history.replace("/");
+  };
   componentDidMount = async () => {
     const {
       BaseActions,
@@ -66,18 +107,27 @@ class HeaderContainer extends Component {
     }
   };
   render() {
-    const { isSideMenuOpen, isLogged, toggleHeaderCategory } = this.props;
+    const {
+      isSideMenuOpen,
+      isLogged,
+      toggleHeaderCategory,
+      toggleHeaderSubmit,
+      selectedCategoryInfo
+    } = this.props;
     return (
       <div>
         <Header
           isLogged={isLogged}
           isSideMenuOpen={isSideMenuOpen}
           toggleHeaderCategory={toggleHeaderCategory}
+          toggleHeaderSubmit={toggleHeaderSubmit}
+          selectedCategoryInfo={selectedCategoryInfo}
           handleOpenSideMenu={this.handleOpenSideMenu}
           handleCloseSideMenu={this.handleCloseSideMenu}
           handleLoginClick={this.handleLoginClick}
           handleLogoutClick={this.handleLogoutClick}
           handleActiveCategoryForm={this.handleActiveCategoryForm}
+          handleSubmitClick={this.handleSubmitClick}
         />
         <CategoryFormContainer />
       </div>
@@ -89,9 +139,18 @@ export default connect(
   state => ({
     isSideMenuOpen: state.base.get("isSideMenuOpen"),
     isLogged: state.base.get("isLogged"),
-    category_id: state.category.get("_id"),
     toggleHeaderCategory: state.base.get("toggleHeaderCategory"),
-    toggleCompleteView: state.config.get("toggleCompleteView")
+    toggleHeaderSubmit: state.base.get("toggleHeaderSubmit"),
+    currentCategory: state.toDo.get("category"),
+    toggleCompleteView: state.config.get("toggleCompleteView"),
+    selectedCategory: state.category.get("selectedCategory"),
+    category_id: state.category.get("_id"), // 현재 선택된 카테고리 id
+    categories: state.category.get("categories"), // 전체 카테고리 리스트
+    selectedCategoryInfo: state.category.get("selectedCategoryInfo"),
+    toDos: state.toDo.get("list"), // 할일 리스트
+    _id: state.toDo.get("_id"), // 할일 id
+    item: state.toDo.get("item"), // 할일 아이템
+    input: state.toDo.get("input") // 할일 입력 데이터
   }),
   dispatch => ({
     BaseActions: bindActionCreators(baseActions, dispatch),

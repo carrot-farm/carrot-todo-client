@@ -27,8 +27,11 @@ const withSimpleList = options => WrappedComponent => {
 
     //아이템 작성 버튼 클릭
     handleWriteClick = evt => {
-      const { BaseActions } = this.props;
+      const { BaseActions, history } = this.props;
       this.actions.clearItem();
+      if (history && options.actionsName === "ToDoActions") {
+        return history.push("/Editor");
+      }
       BaseActions.showModal(options.writeFormName);
     };
 
@@ -39,9 +42,12 @@ const withSimpleList = options => WrappedComponent => {
 
     //아이템 수정 버튼 클릭
     handleModifyClick = () => {
-      const { BaseActions, _id } = this.props;
-      BaseActions.showModal(options.modifyFormName);
+      const { BaseActions, _id, history } = this.props;
       this.actions.getItem(_id);
+      if (options.actionsName === "ToDoActions") {
+        return history.push("/Editor");
+      }
+      BaseActions.showModal(options.modifyFormName);
     };
 
     //아이템 삭제 버튼 클릭

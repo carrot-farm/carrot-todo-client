@@ -10,7 +10,7 @@ import {
   ListItem,
   ListItemText
 } from "@material-ui/core";
-import { Menu, Person, Add } from "@material-ui/icons";
+import { Menu, Person, Add, Send } from "@material-ui/icons";
 import styles from "./Header.scss";
 import classNames from "classnames/bind";
 import HorizontalContainer from "containers/list/HorizontalContainer";
@@ -59,13 +59,16 @@ const SideMenu = ({ handleLogoutClick, isLogged }) => (
 class Header extends Component {
   render() {
     const {
+      isLogged,
       isSideMenuOpen,
       toggleHeaderCategory,
+      toggleHeaderSubmit,
+      selectedCategoryInfo,
       handleOpenSideMenu,
       handleCloseSideMenu,
       handleLoginClick,
       handleLogoutClick,
-      isLogged,
+      handleSubmitClick,
       handleActiveCategoryForm
     } = this.props;
     return (
@@ -93,6 +96,12 @@ class Header extends Component {
           {/* 카테고리 리스트  */}
 
           <div className={cx("center-column")}>
+            {toggleHeaderSubmit && selectedCategoryInfo && (
+              <div className={cx("center-column")}>
+                {selectedCategoryInfo.category}
+              </div>
+            )}
+
             <div
               className={cx("center-column")}
               style={{ display: toggleHeaderCategory ? "block" : "none" }}
@@ -101,13 +110,18 @@ class Header extends Component {
             </div>
           </div>
 
-          {/* 로그인 아이콘과 카테고리 활성화 폼 아이콘 */}
+          {/* 로그인 아이콘, 서브밋, 카테고리 활성화 폼 아이콘 */}
           {isLogged ? (
-            toggleHeaderCategory && (
+            (toggleHeaderCategory && (
               <IconButton onClick={handleActiveCategoryForm}>
                 <Add />
               </IconButton>
-            )
+            )) ||
+            (toggleHeaderSubmit && (
+              <IconButton onClick={handleSubmitClick}>
+                <Send />
+              </IconButton>
+            ))
           ) : (
             <IconButton onClick={handleLoginClick}>
               <Person />

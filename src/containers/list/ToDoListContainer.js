@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { withRouter } from "react-router-dom";
 
 import * as baseActions from "store/modules/base";
 import * as categoryActions from "store/modules/category";
@@ -73,23 +74,25 @@ class ToDoListContainer extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    isLogged: state.base.get("isLogged"),
-    _id: state.toDo.get("_id"),
-    categories: state.category.get("categories"),
-    selectedCategory: state.category.get("selectedCategory"),
-    input: state.toDo.get("input"),
-    page: state.toDo.get("page"),
-    lastPage: state.toDo.get("lastPage"),
-    list: state.toDo.get("list"),
-    loading: state.pender.pending["todo/GET_LIST"],
-    toggleCompleteView: state.config.get("toggleCompleteView")
-  }),
-  dispatch => ({
-    BaseActions: bindActionCreators(baseActions, dispatch),
-    ToDoActions: bindActionCreators(toDoActions, dispatch),
-    CategoryActions: bindActionCreators(categoryActions, dispatch),
-    ConfigActions: bindActionCreators(configActions, dispatch)
-  })
-)(withAppendList(options)(ToDoListContainer));
+export default withRouter(
+  connect(
+    state => ({
+      isLogged: state.base.get("isLogged"),
+      _id: state.toDo.get("_id"),
+      categories: state.category.get("categories"),
+      selectedCategory: state.category.get("selectedCategory"),
+      input: state.toDo.get("input"),
+      page: state.toDo.get("page"),
+      lastPage: state.toDo.get("lastPage"),
+      list: state.toDo.get("list"),
+      loading: state.pender.pending["todo/GET_LIST"],
+      toggleCompleteView: state.config.get("toggleCompleteView")
+    }),
+    dispatch => ({
+      BaseActions: bindActionCreators(baseActions, dispatch),
+      ToDoActions: bindActionCreators(toDoActions, dispatch),
+      CategoryActions: bindActionCreators(categoryActions, dispatch),
+      ConfigActions: bindActionCreators(configActions, dispatch)
+    })
+  )(withAppendList(options)(ToDoListContainer))
+);
