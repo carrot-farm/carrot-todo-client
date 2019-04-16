@@ -15,8 +15,10 @@ class EditorContainer extends Component {
   }
 
   componentWillUnmount() {
-    const { BaseActions } = this.props;
+    const { BaseActions, ToDoActions, CategoryActions } = this.props;
     BaseActions.toggleHeaderSubmit(false);
+    ToDoActions.clearItem();
+    CategoryActions.clearItem();
   }
 
   // ===== 글 입력
