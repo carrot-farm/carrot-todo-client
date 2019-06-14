@@ -1,0 +1,36 @@
+.terms-section {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 80px;
+  .terms-container {
+    width: 500px;
+    text-align: left;
+    margin: auto;
+    label {
+      cursor: pointer;
+    }
+    button {
+      cursor: pointer;
+    }
+    .agree-button:hover {
+      background: rgba(244, 67, 54, 0.08) !important;
+    }
+    .terms-detail-container {
+      width: 100%;
+      height: 100px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+      .terms-box {
+        width: 95%;
+        margin: auto;
+        word-break: break-all;
+        line-height: 1.5rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}

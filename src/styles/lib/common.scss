@@ -1,0 +1,20 @@
+// ===== 메인 컬러 테마
+$secondary-color: #ff9547 !global;
+
+// ===== about 페이지 컬러 테마
+$page_about-color: #f7fe00 !global;
+
+// ========== drawer width
+$drawer-width: 240px !global;
+
+// ========== drawer open/close
+.open-drawer {
+  transition: all 0.3s linear;
+  margin-left: 240px;
+  width: calc(100% - $drawer-width);
+}
+.hide-drawer {
+  transition: all 0.1s linear;
+  margin-left: 0;
+  width: 100%;
+}

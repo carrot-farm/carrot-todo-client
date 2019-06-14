@@ -8,12 +8,12 @@ import {
   IconButton,
   Menu,
   MenuItem
-} from "@material-ui/core";
+} from "material-ui/core";
 import {
   MoreVert,
   RadioButtonChecked,
   RadioButtonUnchecked
-} from "@material-ui/icons";
+} from "material-ui/icons";
 import * as tools from "lib/tools";
 
 const cx = classNames.bind(styles);

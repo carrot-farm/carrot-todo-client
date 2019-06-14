@@ -1,7 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { pender } from "redux-pender";
-
 import { Map } from "immutable";
+import Cookies from "js-cookie";
 
 import * as api from "lib/api";
 
@@ -17,6 +17,8 @@ const SET_HEAD_TITLE = "base/SET_HEAD_TITLE"; //헤드 타이틀 변경
 const SET_HEAD_DESCRIPTION = "base/SET_HEAD_DESCRIPTION";
 const TOGGLE_HEADER_CATEGORY = "base/TOGGLE_HEADER_CATEGORY"; // 헤더 카테고리 토글
 const TOGGLE_HEADER_SUBMIT = "base/TOGGLE_HEADER_SUBMIT"; // 헤더 글작성 버튼
+const TOGGLE_SENDING = "base/TOGGLE_SENDING"; // 폼 전송시 중복 클릭되는 것을 막기위한 스위치
+const DRAWER_TOGGLE = "base/DRAWER_TOGGLE"; // drawer toggle
 
 //action creators
 export const openSideMenu = createAction(OPEN_SIDE_MENU);
@@ -28,7 +30,7 @@ export const checkLogin = createAction(
   api.check_login,
   meta => meta
 );
-export const logout = createAction(LOGOUT, api.logout);
+export const logout = createAction(LOGOUT);
 export const getInitialData = createAction(
   GET_INITIAL_DATA,
   api.getInitialData
@@ -37,6 +39,8 @@ export const setHeadTitle = createAction(SET_HEAD_TITLE);
 export const setHeadDescription = createAction(SET_HEAD_DESCRIPTION);
 export const toggleHeaderCategory = createAction(TOGGLE_HEADER_CATEGORY);
 export const toggleHeaderSubmit = createAction(TOGGLE_HEADER_SUBMIT);
+export const toggleSending = createAction(TOGGLE_SENDING);
+export const drawerToggle = createAction(DRAWER_TOGGLE);
 
 //initial state
 const initialState = Map({
@@ -47,15 +51,25 @@ const initialState = Map({
     toDoForm: false
   }),
   isSideMenuOpen: false,
+  userInfo: null,
   isLogged: false,
   headTitle: "",
   headDescription: "",
   toggleHeaderCategory: false,
-  toggleHeaderSubmit: false
+  toggleHeaderSubmit: false,
+  sending: false, // ajax 전송시 button등의 중복 전송을 막기 위한 장치.
+  drawerSw: false // drawer 스위치
 });
 
 export default handleActions(
   {
+    // ===== logout
+    [LOGOUT]: (state, action) => {
+      console.log("> logout");
+      Cookies.remove("x-access-token");
+      Cookies.remove("x-refresh-token");
+      return (state = initialState);
+    },
     [TOGGLE_HEADER_SUBMIT]: (state, action) => {
       return state.set("toggleHeaderSubmit", action.payload ? true : false);
     },
@@ -82,27 +96,36 @@ export default handleActions(
     [SET_HEAD_DESCRIPTION]: (state, action) => {
       return state.set("headDescription", action.payload.slice(0, 200));
     },
+    // ===== ajax 전송시 버튼의 중복 입력등을 막기 위한 스위치
+    [TOGGLE_SENDING]: (state, action) => {
+      const { sw } = action.payload;
+      return state.set("sending", sw);
+    },
+    // ===== drawer toggle
+    [DRAWER_TOGGLE]: (state, action) => {
+      const { sw } = action.payload;
+      console.log(sw);
+      return state.set("drawerSw", sw);
+    },
+    // ===== 로그인 유무 확인
     ...pender({
       type: CHECK_LOGIN,
       onSuccess: (state, action) => {
-        const { logged: isLogged } = action.payload.data;
-        return state.set("isLogged", isLogged);
+        const { isLogged, userInfo } = action.payload.data;
+        return state.set("isLogged", isLogged).set("userInfo", userInfo);
       },
       onError: e => {
         console.log(e);
       }
     }),
-    ...pender({
-      type: LOGOUT,
-      onSuccess: (state, action) => {
-        return state.set("isLogged", false);
-      }
-    }),
+
+    // ===== 초기 데이터
     ...pender({
       type: GET_INITIAL_DATA,
       onSuccess: (state, action) => {
-        const { logged: isLogged } = action.payload.data;
-        return state.set("isLogged", isLogged);
+        const { isLogged, userInfo } = action.payload.data;
+        // console.log("*** GET GET_INITIAL_DATA", action.payload);
+        return state.set("isLogged", isLogged).set("userInfo", userInfo);
       }
     })
   },

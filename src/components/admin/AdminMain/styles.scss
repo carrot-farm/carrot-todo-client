@@ -1,0 +1,82 @@
+$background: #363636;
+$childBackground: #403f3f;
+$hoverBackground: #494949;
+$color: #fff;
+$drawerWidth: 240px;
+
+/* drawer */
+.drawer {
+  width: $drawerWidth;
+  .MuiDrawer-paper {
+    background: $background;
+    color: $color;
+    width: $drawerWidth;
+    .header {
+      padding: 0 10px;
+    }
+  }
+}
+
+/* 폴딩 메뉴 */
+.full-height-menu-root {
+  background: $background;
+  color: $color;
+  li.active {
+    & > .text-container {
+      position: relative;
+      &::before {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 62px;
+        background-color: #ff9547;
+      }
+    }
+  }
+
+  .text-container {
+    height: 62px;
+    position: relative;
+    overflow: hidden;
+    .text {
+      padding-left: 10px;
+      display: flex;
+      width: 100%;
+      height: inherit;
+      align-items: center;
+      transition: background-color 0.2s linear;
+      &:hover {
+        background-color: $hoverBackground;
+      }
+    }
+    .child-toggle-button {
+      position: absolute;
+      right: 10px;
+      top: 7px;
+    }
+  }
+  .children-menu-list {
+    .child-text {
+      text-indent: 1rem;
+      background: $childBackground;
+    }
+  }
+}
+
+/* header */
+.admin-header-root {
+  background: $background;
+  color: $color;
+  &.open-drawer {
+    transition: all 0.3s linear;
+    margin-left: $drawerWidth;
+    width: calc(100% - 240px);
+  }
+  &.hide-drawer {
+    transition: all 0.1s linear;
+    margin-left: 0;
+    width: 100%;
+  }
+}

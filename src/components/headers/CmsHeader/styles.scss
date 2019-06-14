@@ -1,0 +1,18 @@
+// @import "styles/utils.scss";
+
+.cms-header-root {
+  // profile
+  .profile-section {
+    line-height: 2rem;
+    font-size: 0.8rem;
+    color: #d5d5d5;
+    .right-container {
+      .login-button {
+        margin-right: 1rem;
+      }
+    }
+  }
+  // menu
+  .menu-section {
+  }
+}

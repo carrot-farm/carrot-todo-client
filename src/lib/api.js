@@ -1,20 +1,37 @@
 import axios from "axios";
-import { apiServer } from "config";
+import Cookies from "js-cookie";
 
-const instance = axios.create({
+import { apiServer } from "config";
+import { sendAjax } from "lib/common";
+
+let instance = axios.create({
   baseURL: apiServer,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    Cache: "no-cache"
-  },
-  withCredentials: true
+    Cache: "no-cache",
+    withCredentials: true,
+    "x-access-token": Cookies.get("accessToken") || ""
+  }
 });
 
 //초기 데이터
-export const getInitialData = () => instance.get(`/api/auth/initialData`);
-export const check_login = () => instance.get(`/api/auth/check`);
-export const logout = () => instance.get(`/api/auth/logout`);
+export const getInitialData = () =>
+  sendAjax.get("/api/cms/auth/initializeData");
+
+export const check_login = () => sendAjax.get(`/api/cms/auth/check`);
+
+// ===== 로컬 가입
+export const localRegister = ({ email, password, checkedTerms3 }) =>
+  sendAjax.post(`/api/cms/member/register`, {
+    email,
+    password,
+    checkedTerms3
+  });
+
+// ===== 로그인
+export const sendLocalLogin = ({ email, password }) =>
+  sendAjax.post(`/api/cms/member/login`, { email, password });
 
 //카테고리 관련
 export const getCategories = ({ page = 1 }) =>

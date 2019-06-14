@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import styles from "./AppendListTemplate.scss";
 import classNames from "classnames/bind";
 import SimpleList from "components/list/SimpleList";
-import { Button, Fab } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
+import { Button, Fab } from "material-ui/core";
+import { Add } from "material-ui/icons";
 
 const cx = classNames.bind(styles);
 

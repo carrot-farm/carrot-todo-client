@@ -1,0 +1,63 @@
+/* drawer */
+.drawer {
+  width: 240px;
+  .MuiDrawer-paper {
+    width: 240px;
+    .header {
+      padding: 0 10px;
+    }
+  }
+}
+
+/* 폴딩 메뉴 */
+.folding-menu-root {
+  li.active {
+    .text {
+      position: relative;
+      &::before {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 62px;
+        background-color: #ff9547;
+      }
+    }
+  }
+  .text-container {
+    height: 62px;
+    position: relative;
+    overflow: hidden;
+    .text {
+      padding-left: 10px;
+      display: flex;
+      width: 100%;
+      height: inherit;
+      align-items: center;
+      transition: background-color 0.2s linear;
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+    .child-toggle-button {
+      position: absolute;
+      right: 10px;
+      top: 7px;
+    }
+  }
+  .children-menu-list {
+    .child-text {
+      text-indent: 1rem;
+      background: #fafafa;
+    }
+  }
+}
+
+/* header */
+.admin-header-root {
+  transition: all 0.2s linear;
+  &.open-drawer {
+    transform: translateX(240px);
+  }
+}
