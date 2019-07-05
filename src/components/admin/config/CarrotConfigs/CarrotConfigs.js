@@ -1,27 +1,29 @@
 /*
-  admin 메인 페이지
+  기본 환경 설정
 */
 import React from "react";
 import classNames from "classnames/bind";
 
 import styles from "./styles.scss";
 import { Container, Section, Row, Col } from "components/common/Elements";
-import MaterialFormContainer from "containers/common/MaterialFormContainer.js";
 
 const cx = classNames.bind(styles);
 
 // ===== 헤더
-const AdminMain = ({ drawerSw }) => {
+const CarrotConfigs = ({ drawerSw }) => {
   return (
     <>
       <Section>
         <Container>
-          <h2>관리자 메인</h2>
-          <MaterialFormContainer formName={"PageMenuForm"} />
+          <Row>
+            <Col>
+              <h2>CarrotConfigs</h2>
+            </Col>
+          </Row>
         </Container>
       </Section>
     </>
   );
 };
 
-export default AdminMain;
+export default CarrotConfigs;

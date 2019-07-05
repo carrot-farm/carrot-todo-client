@@ -15,6 +15,7 @@ class HeaderContainer extends Component {
     return (
       <div>
         <TradeHeader />
+        <div>당근</div>
       </div>
     );
   }

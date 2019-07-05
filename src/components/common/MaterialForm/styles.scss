@@ -1,0 +1,12 @@
+// ===== margin top
+.material-input {
+  margin-top: 16px !important;
+  margin-bottom: 4px !important;
+  width: 100% !important;
+
+  // input 크기
+  .MuiInputBase-root,
+  .MuiFormControl-root {
+    width: 100%;
+  }
+}

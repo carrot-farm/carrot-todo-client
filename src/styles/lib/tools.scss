@@ -22,7 +22,11 @@
 }
 
 // ========== section
-//최상단 섹션
+.section {
+  width: 100%;
+  padding-top: 45px;
+}
+//최상단 이미지있는 섹션
 .section-main {
   height: 768px;
   margin-top: -80px;
@@ -116,21 +120,27 @@
 .flex {
   display: flex;
 }
+.none {
+  display: none !important;
+}
 
 // ========== flex align
+/* 중간 정렬 */
 .flext.middle-align {
-  /* 중간 정렬 */
   align-items: center;
 }
+/* 균등분배 */
 .flex.around {
-  /* 균등분배 */
   justify-content: space-around;
   align-items: center;
 }
+/* 양 옆으로 */
 .flex.between {
-  /* 양 옆으로 */
   justify-content: space-between;
   align-items: center;
+}
+.flex.wrap {
+  flex-wrap: wrap;
 }
 .flex.row-start {
   flex-direction: row;
@@ -155,6 +165,9 @@
 .flex.row-start.spacing-05 > div:last-child,
 .flex.row-start.spacing-1 > div:last-child {
   margin-right: 0;
+}
+.flex-1 {
+  flex: 1;
 }
 
 // ========== grid

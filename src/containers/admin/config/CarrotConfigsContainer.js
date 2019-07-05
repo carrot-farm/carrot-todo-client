@@ -4,17 +4,15 @@ import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 
 import * as baseActions from "store/modules/base";
-import AdminMain from "components/admin/AdminMain";
+import CarrotConfigs from "components/admin/config/CarrotConfigs";
 
-class AdminMainContainer extends Component {
-  componentDidMount() {
-    console.log("> mount AdminMainContainer");
-  }
+class CarrotConfigsContainer extends Component {
+  componentDidMount() {}
 
   render() {
     return (
       <>
-        <AdminMain />
+        <CarrotConfigs />
       </>
     );
   }
@@ -27,4 +25,4 @@ export default connect(
   dispatch => ({
     BaseActions: bindActionCreators(baseActions, dispatch)
   })
-)(withRouter(AdminMainContainer));
+)(withRouter(CarrotConfigsContainer));

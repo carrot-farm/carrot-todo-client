@@ -13,7 +13,11 @@ const PageTemplate = ({ children, drawerSw }) => {
   return (
     <div className={cx("admin-page-template-root")}>
       <AdminHeaderContainer />
-      <div className={cx("main-root-wrapper")}>
+      <div
+        className={cx(
+          `main-root-wrapper ${drawerSw ? "open-drawer" : "close-drawer"}`
+        )}
+      >
         <main className={cx("main")}>{children}</main>
       </div>
     </div>

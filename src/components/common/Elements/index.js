@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 
 // ===== header
 export const Header = ({ children, className, ...args }) => (
-  <header className={cx(`el-header ${className || ""}`)} {...args}>
+  <header className={cx(`header ${className || ""}`)} {...args}>
     {children}
   </header>
 );
@@ -17,6 +17,15 @@ export const Header = ({ children, className, ...args }) => (
 export const Container = ({ children, className, ...args }) => {
   return (
     <div className={`el-container container ${className || ""}`} {...args}>
+      {children}
+    </div>
+  );
+};
+
+// ===== section
+export const Section = ({ children, className, ...args }) => {
+  return (
+    <div className={`el-section section ${className || ""}`} {...args}>
       {children}
     </div>
   );

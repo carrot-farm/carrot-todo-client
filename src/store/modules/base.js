@@ -4,6 +4,7 @@ import { Map } from "immutable";
 import Cookies from "js-cookie";
 
 import * as api from "lib/api";
+import adminMenus from "../data/adminMenu";
 
 //action types
 const OPEN_SIDE_MENU = "base/OPEN_SIDE_MENU";
@@ -19,6 +20,7 @@ const TOGGLE_HEADER_CATEGORY = "base/TOGGLE_HEADER_CATEGORY"; // 헤더 카테�
 const TOGGLE_HEADER_SUBMIT = "base/TOGGLE_HEADER_SUBMIT"; // 헤더 글작성 버튼
 const TOGGLE_SENDING = "base/TOGGLE_SENDING"; // 폼 전송시 중복 클릭되는 것을 막기위한 스위치
 const DRAWER_TOGGLE = "base/DRAWER_TOGGLE"; // drawer toggle
+const TOGGLE_ADMIN_CHILDREN_MENUS = "base/TOGGLE_ADMIN_CHILDREN_MENUS"; // 관리자 메뉴 자식 메뉴 토글
 
 //action creators
 export const openSideMenu = createAction(OPEN_SIDE_MENU);
@@ -41,6 +43,9 @@ export const toggleHeaderCategory = createAction(TOGGLE_HEADER_CATEGORY);
 export const toggleHeaderSubmit = createAction(TOGGLE_HEADER_SUBMIT);
 export const toggleSending = createAction(TOGGLE_SENDING);
 export const drawerToggle = createAction(DRAWER_TOGGLE);
+export const toggleAdminChildrenMenus = createAction(
+  TOGGLE_ADMIN_CHILDREN_MENUS
+);
 
 //initial state
 const initialState = Map({
@@ -58,17 +63,17 @@ const initialState = Map({
   toggleHeaderCategory: false,
   toggleHeaderSubmit: false,
   sending: false, // ajax 전송시 button등의 중복 전송을 막기 위한 장치.
-  drawerSw: false // drawer 스위치
+  drawerSw: false, // drawer 스위치
+  adminMenus: adminMenus // 관리자 메뉴
 });
 
 export default handleActions(
   {
     // ===== logout
     [LOGOUT]: (state, action) => {
-      console.log("> logout");
       Cookies.remove("x-access-token");
       Cookies.remove("x-refresh-token");
-      return (state = initialState);
+      return initialState;
     },
     [TOGGLE_HEADER_SUBMIT]: (state, action) => {
       return state.set("toggleHeaderSubmit", action.payload ? true : false);
@@ -104,8 +109,15 @@ export default handleActions(
     // ===== drawer toggle
     [DRAWER_TOGGLE]: (state, action) => {
       const { sw } = action.payload;
-      console.log(sw);
       return state.set("drawerSw", sw);
+    },
+    // ===== 관리지 자식 메뉴 토글
+    [TOGGLE_ADMIN_CHILDREN_MENUS]: (state, action) => {
+      const { item, index } = action.payload;
+      return state.setIn(
+        ["adminMenus", index, "showChildren"],
+        !item.showChildren
+      );
     },
     // ===== 로그인 유무 확인
     ...pender({

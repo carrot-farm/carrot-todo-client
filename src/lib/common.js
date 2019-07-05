@@ -41,7 +41,7 @@ export const saveAccessToken = (token, refreshToken) => {
 // ===== 데이터를 보내고 토큰을 자동 발급 하거나 한다.
 export const sendAjax = (() => {
   // 데이터 전송
-  const send = (method, url, data) => {
+  const send = (method, url, data, _headers, _files = []) => {
     return new Promise(async (resolve, reject) => {
       let options = {
         baseURL: apiServer,
@@ -50,10 +50,26 @@ export const sendAjax = (() => {
           "Content-Type": "application/json",
           Cache: "no-cache",
           withCredentials: true,
-          "x-access-token": Cookies.get("x-access-token") || ""
+          "x-access-token": Cookies.get("x-access-token") || "",
+          ..._headers
         }
       };
+      let sendData = data;
       let result;
+      console.log("*** sendAjax: ", options, data, _files);
+
+      // 파일 업로드 처리
+      if (_files.length) {
+        options.headers["Content-Type"] = "multipart/form-data";
+        sendData = new FormData();
+        _files.map(item => {
+          console.log("> file item: ", item);
+          sendData.append(item.name, item.file);
+        });
+        if (data) {
+          sendData.append("data", JSON.stringify(data));
+        }
+      }
 
       // console.log("> send", method, url);
       try {
@@ -64,7 +80,7 @@ export const sendAjax = (() => {
           method === "update" ||
           method === "patch"
         ) {
-          result = await axios[method](url, data, options);
+          result = await axios[method](url, sendData, options);
         }
         // console.log("> result.data", result.data);
         // 발급 요청이 있을 경우.
@@ -84,17 +100,19 @@ export const sendAjax = (() => {
         }
         resolve(result);
       } catch (e) {
-        console.log("*** send Error", e.response);
+        // console.log("*** send Error", e.response);
         reject(e);
       }
     });
   };
 
   return {
-    get: url => send("get", url),
-    post: (url, data) => send("post", url, data),
-    patch: (url, data) => send("patch", url, data),
-    update: (url, data) => send("update", url, data),
-    delete: url => send("delete", url)
+    get: ({ url, headers }) => send("get", url, headers),
+    post: ({ url, data, headers, files }) =>
+      send("post", url, data, headers, files),
+    patch: ({ url, data, headers, files }) =>
+      send("patch", url, data, headers, files),
+    update: ({ url, data, headers }) => send("update", url, data, headers),
+    delete: ({ url, headers }) => send("delete", url, headers)
   };
 })();

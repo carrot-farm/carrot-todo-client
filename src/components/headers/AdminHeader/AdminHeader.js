@@ -2,12 +2,12 @@
   admin 페이지에서 사용되는 헤더
   fullHeightMenus 사용.
 */
-import React, { useState } from "react";
+import React from "react";
 import classNames from "classnames/bind";
 import { Link, withRouter } from "react-router-dom";
 import { IconButton, Drawer, Divider } from "@material-ui/core";
 import { Menu, ArrowBack, ExpandMore, ExpandLess } from "@material-ui/icons";
-import { List } from "immutable";
+// import { List } from "immutable";
 
 import styles from "./styles.scss";
 import { Header, Container } from "components/common/Elements";
@@ -23,45 +23,45 @@ const cx = classNames.bind(styles);
     children(jsonArr/parent only): 자식 메뉴
   }
 */
-const menusData = List([
-  {
-    id: "0",
-    text: "환경설정",
-    showChildren: false,
-    children: [
-      {
-        id: "0-0",
-        text: "기본환경설정",
-        to: "/admin/config/carrot-configs"
-      }
-    ]
-  },
-  {
-    id: "1",
-    text: "페이지설정",
-    showChildren: false,
-    children: [
-      {
-        id: "1-0",
-        text: "메뉴관리",
-        to: "/admin/page/page-menu"
-      }
-    ]
-  }
-]);
+// const menusData = List([
+//   {
+//     id: "0",
+//     text: "환경설정",
+//     showChildren: false,
+//     children: [
+//       {
+//         id: "0-0",
+//         text: "기본환경설정",
+//         to: "/admin/config/carrotConfigs"
+//       }
+//     ]
+//   },
+//   {
+//     id: "1",
+//     text: "페이지설정",
+//     showChildren: false,
+//     children: [
+//       {
+//         id: "1-0",
+//         text: "메뉴관리",
+//         to: "/admin/page/pageMenu"
+//       }
+//     ]
+//   }
+// ]);
 
-// ===== 헤더
-const FullHeightMenu = ({ menus, location }) => {
-  const [menuData, setMenuData] = useState(menus);
-  // ===== 자식 리스트 보기
-  const handleShowChildrenClick = (item, index) => {
-    setMenuData(menuData.setIn([index, "showChildren"], !item.showChildren));
-  };
+// ===== fullHeight header
+const FullHeightMenu = ({ menus, location, handleToggleChildrenMenus }) => {
+  // const [menuData, setMenuData] = useState(menus);
+  // // ===== 자식 리스트 보기
+  // const handleShowChildrenClick = ({item, index}) => {
+  //   setMenuData(menuData.setIn([index, "showChildren"], !item.showChildren));
+  // };
   return (
     <nav className={cx("full-height-menu-root")}>
       {/* 부모 리스트 */}
       <ul className="paret-menu">
-        {menuData.map((item, index) => (
+        {menus.map((item, index) => (
           <li
             className={`parent-li index-${index} ${
               location.pathname === item.to ? "active" : ""
@@ -83,7 +83,7 @@ const FullHeightMenu = ({ menus, location }) => {
                     className={"child-menu-open-button white-text"}
                     arial-label="child menu open button"
                     component="span"
-                    onClick={e => handleShowChildrenClick(item, index)}
+                    onClick={e => handleToggleChildrenMenus({ item, index })}
                   >
                     {item.showChildren ? <ExpandLess /> : <ExpandMore />}
                   </IconButton>
@@ -127,9 +127,12 @@ const FullHeightMenu = ({ menus, location }) => {
 // ===== 헤더
 const AdminHeader = ({
   drawerSw,
+  location,
+  menus,
   handleOpenDrawerCilck,
   handleCloseDrawerClick,
-  location
+  handleToggleChildrenMenus,
+  handleLogoutClick
 }) => {
   return (
     <>
@@ -142,7 +145,9 @@ const AdminHeader = ({
         classes={{ paper: "240px" }}
       >
         <div className="header flex between">
-          <div className="font-size s-1d2 ">ADMIN PAGE</div>
+          <div className="font-size s-1d2 ">
+            <Link to="/admin">ADMIN PAGE</Link>
+          </div>
           <IconButton
             className="white-text "
             arial-label="menu-hide-button"
@@ -153,7 +158,11 @@ const AdminHeader = ({
           </IconButton>
         </div>
         <Divider />
-        <FullHeightMenu menus={menusData} location={location} />
+        <FullHeightMenu
+          menus={menus}
+          location={location}
+          handleToggleChildrenMenus={handleToggleChildrenMenus}
+        />
       </Drawer>
 
       {/* 헤더  */}
@@ -179,7 +188,12 @@ const AdminHeader = ({
             <div className="to-home-page-button">
               <Link to="/">홈페이지</Link>
             </div>
-            <div className="logout-button">로그아웃</div>
+            <button
+              className="button-clear logout-button"
+              onClick={handleLogoutClick}
+            >
+              로그아웃
+            </button>
           </div>
         </Container>
       </Header>

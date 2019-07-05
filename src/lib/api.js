@@ -7,31 +7,57 @@ import { sendAjax } from "lib/common";
 let instance = axios.create({
   baseURL: apiServer,
   headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
+    // Accept: "application/json",
+    // "Content-Type": "application/json",
     Cache: "no-cache",
     withCredentials: true,
-    "x-access-token": Cookies.get("accessToken") || ""
+    "x-access-token": Cookies.get("accessToken") || "",
+    "content-type": "multipart/form-data"
   }
 });
 
 //초기 데이터
 export const getInitialData = () =>
-  sendAjax.get("/api/cms/auth/initializeData");
+  sendAjax.get({ url: "/api/cms/auth/initializeData" });
 
-export const check_login = () => sendAjax.get(`/api/cms/auth/check`);
+export const check_login = () => sendAjax.get({ url: `/api/cms/auth/check` });
 
 // ===== 로컬 가입
 export const localRegister = ({ email, password, checkedTerms3 }) =>
-  sendAjax.post(`/api/cms/member/register`, {
-    email,
-    password,
-    checkedTerms3
+  sendAjax.post({
+    url: `/api/cms/member/register`,
+    data: {
+      email,
+      password,
+      checkedTerms3
+    }
   });
 
 // ===== 로그인
 export const sendLocalLogin = ({ email, password }) =>
-  sendAjax.post(`/api/cms/member/login`, { email, password });
+  sendAjax.post({ url: `/api/cms/member/login`, data: { email, password } });
+
+// ===== 마테리얼 폼 전송
+export const materialFormSend = ({ url, data, files }) => {
+  console.log("*** send: ", url, data, files);
+  // data.push({
+  //   name: "fileName",
+  //   tag: "file",
+  //   value: files
+  // });
+  let formData = new FormData();
+  formData.append("file", files);
+  // formData.append("jsonData", JSON.stringify(data));
+  // console.log("> formData: ", url, formData, files);
+  // return instance.post(url, formData);
+  return sendAjax.post({
+    url,
+    data,
+    files: files
+  });
+};
+
+/* ======================================================== */
 
 //카테고리 관련
 export const getCategories = ({ page = 1 }) =>
@@ -71,6 +97,7 @@ export const deleteToDo = ({ _id }) => instance.delete(`/api/toDos/${_id}`);
 // ===== 설정
 // config 가져오기.
 export const getConfig = sw => instance.get("/api/config");
+
 // 토글 완료 목록 함께 보기
 export const toggleCompleteView = sw => {
   const url =

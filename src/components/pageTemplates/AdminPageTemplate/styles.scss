@@ -1,3 +1,11 @@
 .admin-page-template-root {
-  width: 100%;
+  // overflow: hidden;
+  header.open-drawer,
+  .main-root-wrapper.open-drawer {
+    @media screen and (max-width: 600px) {
+      width: 95%;
+      display: flex;
+      flex-shrink: 1;
+    }
+  }
 }

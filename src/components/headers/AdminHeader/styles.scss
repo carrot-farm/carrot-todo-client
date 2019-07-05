@@ -69,14 +69,7 @@ $drawer-width: 240px;
 .admin-header-root {
   background: $background;
   color: $color;
-  // &.open-drawer {
-  //   transition: all 0.3s linear;
-  //   margin-left: $drawer-width;
-  //   width: calc(100% - 240px);
-  // }
-  // &.hide-drawer {
-  //   transition: all 0.1s linear;
-  //   margin-left: 0;
-  //   width: 100%;
-  // }
+  .logout-button {
+    margin-left: 10px;
+  }
 }
