@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Root from "./Root";
 import * as serviceWorker from "./serviceWorker";
-import "react-app-polyfill/ie9";
+// import "react-app-polyfill/ie9";
 import "lib/polyfill";
 import "styles/base.scss";
 import "styles/utils.scss";

@@ -85,26 +85,26 @@ class HeaderContainer extends Component {
     history.replace("/");
   };
   componentDidMount = async () => {
-    const {
-      BaseActions,
-      CategoryActions,
-      ToDoActions,
-      ConfigActions
-    } = this.props;
-    const res = await BaseActions.getInitialData();
-    const { data } = res;
-    if (data.logged) {
-      CategoryActions.getList({ page: 1 });
-      if (data._selectedCategory) {
-        CategoryActions.setSelectedCategory(data._selectedCategory);
-        ConfigActions.setToggleCompleteView(data.toggleCompleteView);
-        ToDoActions.getList({
-          page: 1,
-          categoryId: data._selectedCategory,
-          completed: data.toggleCompleteView
-        });
-      }
-    }
+    // const {
+    //   BaseActions,
+    //   CategoryActions,
+    //   ToDoActions,
+    //   ConfigActions
+    // } = this.props;
+    // const res = await BaseActions.getInitialData();
+    // const { data } = res;
+    // if (data.logged) {
+    //   CategoryActions.getList({ page: 1 });
+    //   if (data._selectedCategory) {
+    //     CategoryActions.setSelectedCategory(data._selectedCategory);
+    //     ConfigActions.setToggleCompleteView(data.toggleCompleteView);
+    //     ToDoActions.getList({
+    //       page: 1,
+    //       categoryId: data._selectedCategory,
+    //       completed: data.toggleCompleteView
+    //     });
+    //   }
+    // }
   };
   render() {
     const {

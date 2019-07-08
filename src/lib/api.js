@@ -18,14 +18,14 @@ let instance = axios.create({
 
 //초기 데이터
 export const getInitialData = () =>
-  sendAjax.get({ url: "/api/cms/auth/initializeData" });
+  sendAjax.get({ uri: "/api/cms/auth/initializeData" });
 
-export const check_login = () => sendAjax.get({ url: `/api/cms/auth/check` });
+export const check_login = () => sendAjax.get({ uri: `/api/cms/auth/check` });
 
 // ===== 로컬 가입
 export const localRegister = ({ email, password, checkedTerms3 }) =>
   sendAjax.post({
-    url: `/api/cms/member/register`,
+    uri: `/api/cms/member/register`,
     data: {
       email,
       password,
@@ -35,11 +35,11 @@ export const localRegister = ({ email, password, checkedTerms3 }) =>
 
 // ===== 로그인
 export const sendLocalLogin = ({ email, password }) =>
-  sendAjax.post({ url: `/api/cms/member/login`, data: { email, password } });
+  sendAjax.post({ uri: `/api/cms/member/login`, data: { email, password } });
 
 // ===== 마테리얼 폼 전송
-export const materialFormSend = ({ url, data, files }) => {
-  console.log("*** send: ", url, data, files);
+export const materialFormSend = ({ uri, data, files }) => {
+  console.log("*** send: ", uri, data, files);
   // data.push({
   //   name: "fileName",
   //   tag: "file",
@@ -51,7 +51,7 @@ export const materialFormSend = ({ url, data, files }) => {
   // console.log("> formData: ", url, formData, files);
   // return instance.post(url, formData);
   return sendAjax.post({
-    url,
+    uri,
     data,
     files: files
   });

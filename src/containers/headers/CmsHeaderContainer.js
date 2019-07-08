@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom"; //history 객체에 연결하기 위해
 
-import * as baseActions from "store/modules/base";
+// import * as baseActions from "store/modules/base";
+import { base } from "../../actions";
 import CmsHeader from "components/headers/CmsHeader";
 
 class CmsHeaderContainer extends Component {
@@ -39,6 +40,6 @@ export default connect(
     userInfo: state.base.get("userInfo")
   }),
   dispatch => ({
-    BaseActions: bindActionCreators(baseActions, dispatch)
+    BaseActions: bindActionCreators(base.actions, dispatch)
   })
 )(withRouter(CmsHeaderContainer));

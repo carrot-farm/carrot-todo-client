@@ -3,8 +3,13 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 
-import * as baseActions from "store/modules/base";
+// import * as baseActions from "store/modules/base";
+import { base } from "../../actions";
 import AdminHeader from "components/headers/AdminHeader";
+
+// const {
+
+// } = base.actions;
 
 class AdminHeaderContainer extends Component {
   // ===== open drawer
@@ -34,17 +39,25 @@ class AdminHeaderContainer extends Component {
   };
 
   // ===== 마운트
-  async componentDidMount() {
-    const { BaseActions, history } = this.props;
-    const {
-      data: { userInfo }
-    } = await BaseActions.getInitialData();
-
+  componentDidMount() {
+    // console.log("> baset ", baseActions);
+    // const { BaseActions, history } = this.props;
+    // const {
+    //   data: { userInfo }
+    // } = await BaseActions.getInitialData();
+    // const {
+    //   data: { userInfo }
+    // } = await BaseActions.getInitialData();
     // 접근 제한
-    if (!userInfo || !userInfo.isAdmin) {
-      alert("접근 권한이 없습니다.");
-      history.replace("/");
-    }
+    // if (!userInfo || !userInfo.isAdmin) {
+    //   alert("접근 권한이 없습니다.");
+    //   history.replace("/");
+    // }
+  }
+
+  // ===== 업데이트
+  shouldComponentUpdate(prevState) {
+    console.log("update: ", prevState);
   }
 
   // ===== 랜더링
@@ -71,6 +84,6 @@ export default connect(
     adminMenus: state.base.get("adminMenus")
   }),
   dispatch => ({
-    BaseActions: bindActionCreators(baseActions, dispatch)
+    BaseActions: bindActionCreators(base.actions, dispatch)
   })
 )(withRouter(AdminHeaderContainer));
