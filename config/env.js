@@ -1,4 +1,4 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
@@ -13,6 +13,7 @@ if (!NODE_ENV) {
     'The NODE_ENV environment variable is required but was not specified.'
   );
 }
+
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 var dotenvFiles = [
